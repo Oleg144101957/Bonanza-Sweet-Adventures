@@ -5,19 +5,9 @@ plugins {
 
 }
 
-apply plugin: net.branchlock.obfuscation.ObfuscationPlugin
-branchlock {
-    configFile = 'branchlock.json' // the path to your branchlock config json file
-    apiKey = 'b069d6165d57713b1c1194913ae16d38' // your API key (Do not share)
-    uploadLibs = true // needs to be enabled if class not found errors appear
-    obfuscateDebug = true  // also obfuscate non-release testing versions. can be used to test if obfuscation is working
-    excludeLib 'com.google.android.gms', 'com.google.ads' // exclude classes that start with your string from being uploaded as library to save time
-    fullLibCode = false // shrinks libraries by default before uploading to save time. Needs to be enabled if you do not want to shrink your libraries.
-}
-
 android {
     namespace 'ua.com.bonanzasweetadventures'
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "ua.com.bonanzasweetadventures"
@@ -58,6 +48,10 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+
+    viewBinding{
+        enabled true
+    }
 }
 
 dependencies {
@@ -81,6 +75,8 @@ dependencies {
 
     //nav
     implementation 'androidx.navigation:navigation-compose:2.6.0'
+
+    implementation 'androidx.compose.runtime:runtime-livedata:1.6.0-alpha03'
 
 
     //Track

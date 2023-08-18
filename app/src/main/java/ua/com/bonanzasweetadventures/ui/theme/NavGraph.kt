@@ -4,16 +4,17 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ua.com.bonanzasweetadventures.BonanzaViewModel
 
 
 @Composable
-fun NavGraph() {
+fun NavGraph(bonanzaViewModel: BonanzaViewModel) {
 
     val navHostController = rememberNavController()
 
     NavHost(navController = navHostController, startDestination = Screens.Loading.target){
         composable(route = Screens.Loading.target){
-            ScreenLoading(navHostController)
+            ScreenLoading(navHostController, bonanzaViewModel)
         }
 
         composable(route = Screens.Menu.target){

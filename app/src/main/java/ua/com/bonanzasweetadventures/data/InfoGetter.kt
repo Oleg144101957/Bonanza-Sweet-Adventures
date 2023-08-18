@@ -9,37 +9,41 @@ import com.google.android.gms.ads.identifier.AdvertisingIdClient
 import com.onesignal.OneSignal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import ua.com.bonanzasweetadventures.BonanzaViewModel
 import ua.com.bonanzasweetadventures.Constants
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class InfoGetter(private val context: Context) {
 
-
-    suspend fun prepearDestination(){
+    private val linkStorage = LinkStorage(context)
+    suspend fun prepearDestination(viewModel: BonanzaViewModel){
         //check time and adb
+
+        Log.d("123123", "Begin method prepearDestination")
 
         val checkManager = CheckManager()
         val status = checkManager.checkStatus(context = context)
 
-
         val apps = getApps()
         val fb = getFacebook()
         val gaid = getGaid()
-
 
         Log.d("123123", "apps is $apps")
         Log.d("123123", "fb is $fb")
         Log.d("123123", "gaid is $gaid")
 
         if (status){
-            buildLink(apps, fb, gaid)
+            buildLink(apps, fb, gaid, viewModel)
         }
-
-
     }
 
-    private fun buildLink(apps: MutableMap<String, Any>?, fb: String, gaid: String){
+    private fun buildLink(
+        apps: MutableMap<String, Any>?,
+        fb: String,
+        gaid: String,
+        bonanzaViewModel: BonanzaViewModel
+    ){
         OneSignal.setExternalUserId(gaid)
 
         val listOfFacebookSubs : List<String> = fb.substringAfter("://")
@@ -59,17 +63,47 @@ class InfoGetter(private val context: Context) {
         val sub1 = listOfFacebookSubs.getOrNull(0) ?: "null"
         OneSignal.sendTag("sub1", sub1)
 
+        if (af_status == "Organic"){
+            val sub2 = if (listOfFacebookSubs.getOrNull(1) != null) listOfFacebookSubs.getOrNull(1) else "LGxfTPfW"
 
-        val linkToSave = ""
+            val listOfBaseEssentials = listOf("https://f", "t-app", "s.com/")
+            val ft = listOfBaseEssentials[0]+listOfBaseEssentials[1]+listOfBaseEssentials[2]
 
-        val linkStorage = LinkStorage(context)
-        saveLink(linkStorage, linkToSave)
+            val linkBuilder = StringBuilder("$ft$sub2?")
+
+            linkBuilder.append("af_channel=$af_channel&")
+            linkBuilder.append("adset=$adset&")
+            linkBuilder.append("media_source=$media_source&")
+            linkBuilder.append("af_status=$af_status&")
+            linkBuilder.append("af_ad=$af_ad&")
+            linkBuilder.append("campaign_id=$campaign_id&")
+            linkBuilder.append("adset_id=$adset_id&")
+            linkBuilder.append("ad_id=$ad_id&")
+            linkBuilder.append("sub3=${listOfFacebookSubs.getOrNull(2)}")
+            linkBuilder.append("sub4=${listOfFacebookSubs.getOrNull(3)}")
+            linkBuilder.append("sub5=${listOfFacebookSubs.getOrNull(4)}")
+            linkBuilder.append("sub6=${listOfFacebookSubs.getOrNull(5)}")
+            linkBuilder.append("sub7=${listOfFacebookSubs.getOrNull(6)}")
+            linkBuilder.append("sub8=${listOfFacebookSubs.getOrNull(7)}")
+            linkBuilder.append("sub9=${listOfFacebookSubs.getOrNull(8)}")
+            linkBuilder.append("sub10=${listOfFacebookSubs.getOrNull(9)}")
+
+            linkStorage.saveLink(linkBuilder.toString())
+
+            bonanzaViewModel.putDataToLiveStatus("Ready")
+        } else {
+            bonanzaViewModel.putDataToLiveStatus(Constants.ATTENTION)
+
+        }
     }
 
-    private fun saveLink(linkStorage: LinkStorage, dataToSave: String) {
+    fun readLink(): String{
+        return linkStorage.getLink()
+    }
+
+    fun uploadLink(dataToSave: String){
         linkStorage.saveLink(dataToSave)
     }
-
 
     private suspend fun getApps(): MutableMap<String, Any>? = suspendCoroutine { continuation ->
         AppsFlyerLib.getInstance()

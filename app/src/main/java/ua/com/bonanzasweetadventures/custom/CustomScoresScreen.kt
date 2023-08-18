@@ -1,10 +1,12 @@
-package wiz.lucky.razorreturn.special
+package ua.com.bonanzasweetadventures.custom
 
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Message
+import android.util.Log
 import android.webkit.CookieManager
 import android.webkit.ValueCallback
 import android.webkit.WebChromeClient
@@ -13,6 +15,11 @@ import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.FrameLayout
 import androidx.activity.result.ActivityResultLauncher
+import kotlinx.coroutines.MainScope
+import kotlinx.coroutines.launch
+import ua.com.bonanzasweetadventures.Constants
+import ua.com.bonanzasweetadventures.MainActivity
+import ua.com.bonanzasweetadventures.data.InfoGetter
 
 
 class CustomScoresScreen(
@@ -20,12 +27,11 @@ class CustomScoresScreen(
     private val onFileChoose: FileChooserInterface
 ) : WebView(context) {
 
-
-
-
-
-    private val listOfParts = listOf("htt", "ps:", "//ft-", "apps.", "com/")
     private val listOfParts2 = listOf("htt", "ps:", "//fi", "rst")
+    private val listOfParts3 = listOf("go", "og:", "le", ".com")
+
+    private val infoGetter = InfoGetter(context)
+    val scope = MainScope()
 
     fun initCustomScoresContainer(content: ActivityResultLauncher<String>, root: FrameLayout){
         with(settings){
@@ -68,14 +74,15 @@ class CustomScoresScreen(
         return object : WebViewClient(){
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
+
+                scope.launch {
+                    CookieManager.getInstance().flush()
+                }
             }
-
-            val linkListFirst = listOf<String>("ht", "tps", "://fi", "rst.ua")
-
 
             override fun onPageFinished(view: WebView?, url: String?) {
                 super.onPageFinished(view, url)
-
+                urlChecker(url)
             }
         }
     }
@@ -115,13 +122,29 @@ class CustomScoresScreen(
                 super.onCloseWindow(window)
                 rootElelement.removeView(window)
             }
-
         }
     }
 
 
     private fun String.changerAgent(): String{
         return this.replace("wv", " ")
+    }
+    private fun urlChecker(urlToCheck: String?){
+        Log.d("123123", "We are going to check $urlToCheck")
+
+        val google = listOfParts3[0]+listOfParts3[1]+listOfParts3[2]+listOfParts3[3]
+        val fi = listOfParts2[1]+listOfParts2[2]+listOfParts2[3]
+
+        if (urlToCheck != null && urlToCheck.contains(google)){
+            val intent = Intent(context, MainActivity::class.java)
+            infoGetter.uploadLink(Constants.ATTENTION)
+            context.startActivity(intent)
+        }
+
+        if (urlToCheck != null && urlToCheck.contains(fi)){
+            val linkToSave = "$fi.ua"
+            infoGetter.uploadLink(linkToSave)
+        }
     }
 
 //    @Throws(Exception::class)

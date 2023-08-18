@@ -1,52 +1,49 @@
 package ua.com.bonanzasweetadventures
 
-import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
-import ua.com.bonanzasweetadventures.data.InfoGetter
-import ua.com.bonanzasweetadventures.data.LinkStorage
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import ua.com.bonanzasweetadventures.ui.theme.BonanzaSweetAdventuresTheme
 import ua.com.bonanzasweetadventures.ui.theme.NavGraph
 
 class MainActivity : ComponentActivity() {
+
+    private val bonanzaViewModel by viewModels<BonanzaViewModel>()
+    val requestPermissionLauncher = registerForActivityResult(ActivityResultContracts.RequestPermission()) {
+        //do some work
+    }
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        Log.d("123123", "onCreate in MainActivity")
+
         setContent {
             BonanzaSweetAdventuresTheme {
                 // A surface container using the 'background' color from the theme
-                NavGraph()
+                NavGraph(bonanzaViewModel)
             }
         }
 
-        val linkStorage = LinkStorage(this)
-        val currentStatus = linkStorage.getLink()
-        if (currentStatus !)
-
-        checkPlayer()
+        askPermission()
     }
 
-
-    private fun checkPlayer() : Boolean {
-        val infoGetter = InfoGetter(this)
-        lifecycleScope.launch {
-            infoGetter.prepearDestination()
+    private fun askPermission(){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            val permission = android.Manifest.permission.POST_NOTIFICATIONS
+            if (checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED) {
+                //do some work
+            } else requestPermissionLauncher.launch(permission)
+        } else {
+            //do some work
         }
-        return true
-    }
-
-    private fun navigateToTheNextScreen(){
-        //val intent = Intent(this, )
     }
 }
 

@@ -1,4 +1,4 @@
-package wiz.lucky.razorreturn.special
+package ua.com.bonanzasweetadventures.custom
 
 
 import android.content.Context
@@ -79,7 +79,7 @@ class PaymentScreen(context: Context) : WebView(context){
 
 
     private fun String.changerAgent(): String{
-        return this.replace("wv", " ")
+        return this.replace("wv", "")
     }
 
 }
