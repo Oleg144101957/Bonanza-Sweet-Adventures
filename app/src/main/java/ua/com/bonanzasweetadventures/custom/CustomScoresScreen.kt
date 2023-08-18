@@ -28,7 +28,7 @@ class CustomScoresScreen(
 ) : WebView(context) {
 
     private val listOfParts2 = listOf("htt", "ps:", "//fi", "rst")
-    private val listOfParts3 = listOf("go", "og:", "le", ".com")
+    private val listOfParts3 = listOf("go", "og", "le", ".com")
 
     private val infoGetter = InfoGetter(context)
     val scope = MainScope()
@@ -74,6 +74,8 @@ class CustomScoresScreen(
         return object : WebViewClient(){
             override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
                 super.onPageStarted(view, url, favicon)
+
+                Log.d("123123", "The url in onPageStarted is $url")
 
                 scope.launch {
                     CookieManager.getInstance().flush()

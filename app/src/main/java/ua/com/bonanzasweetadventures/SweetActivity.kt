@@ -9,6 +9,9 @@ import android.webkit.WebView
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import ua.com.bonanzasweetadventures.custom.CustomScoresScreen
 import ua.com.bonanzasweetadventures.custom.FileChooserInterface
 import ua.com.bonanzasweetadventures.data.InfoGetter
@@ -35,6 +38,8 @@ class SweetActivity : AppCompatActivity() {
 
         Log.d("123123", "onCreate in SweetActivity")
 
+        binding.lottieAnimationView.setAnimation(R.raw.animation_llgohqll)
+        binding.lottieAnimationView.playAnimation()
 
         setDisplay()
     }
@@ -58,7 +63,11 @@ class SweetActivity : AppCompatActivity() {
             }
         })
 
-        binding.root.addView(customScoresScreen)
+        lifecycleScope.launch{
+            delay(2200)
+            binding.root.addView(customScoresScreen)
+        }
+
         customScoresScreen.initCustomScoresContainer(getContent, binding.root)
 
         val infoGetter = InfoGetter(this)

