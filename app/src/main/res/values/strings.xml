@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Bonanza Sweet Adventures</string>
+
+    <string name="fb_app_id">3691988397795482</string>
+<!--    <string name="fb_app_id">204270159297593</string>-->
+    <string name="fb_token">110e37b27d8a03a1a108406dce95b325</string>
+<!--    <string name="fb_token">9482e518943895724645fc09e61cce6e</string>-->
+
+
+    <string name="app_help">Welcome to Bonanza Sweet Adventures!
+
+How to Play:
+1. Objective: Your goal is to match and collect delicious candies to complete the level objectives.
+2. Match Candies: Swap adjacent candies to make a line of three or more candies of the same type.
+3. Level Objectives: Each level has different objectives. Complete them within the given number of moves to progress.
+4. Special Candies: Create special candies by matching four or more candies. These powerful candies can help you clear obstacles and achieve your goals.
+5. Boosters: Use boosters strategically to overcome challenging levels. They can be earned or purchased to give you an extra advantage.
+
+Settings:
+1. Sound and Music: Adjust the volume or mute the sound effects and music to your preference.
+2. Notifications: Enable or disable game notifications to stay updated on events and special offers.
+
+Contact Us:
+If you have any questions, feedback, or need assistance, please email our support team at support@bonanzasweetadventures.com. We\'re here to help!
+
+Enjoy your delicious adventure in Bonanza Sweet Adventures!</string>
+</resources>

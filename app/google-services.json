@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "197986165147",
+    "project_id": "sweetbonanza-4438a",
+    "storage_bucket": "sweetbonanza-4438a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:197986165147:android:5cc7cbf2b753209dee013e",
+        "android_client_info": {
+          "package_name": "ua.com.bonanzasweetadventures"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "197986165147-gtibi690178ojl82v5knl52hqh0ce1tb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBArF4XbC8-SN5fNN5El9irywdRAIYJpkI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "197986165147-gtibi690178ojl82v5knl52hqh0ce1tb.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
